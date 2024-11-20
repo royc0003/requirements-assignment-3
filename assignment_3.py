@@ -165,7 +165,8 @@ system_reliability = MaintainGoal(name="System Reliability",
 
 #  Impediment towards Achieve [Platform Security]
 unauthorized_access_to_user_data = Obstacle(
-    name="Obstacle 1: Unauthorized access to user data"
+    name="Obstacle 1: Unauthorized access to user data",
+    annotation="Obstruction to Achieve[Platform Security]"
 )
 
 # Impediment towards Maintain [System Reliability]
