@@ -239,7 +239,12 @@ platform_unauthorized_ob_link = ObstructionLink(
 # )
 
 mfa_resolution = AchieveGoal(
-    name="Implement Multi-Factor Authentication (Enhance Authentication Mechanism)",
+    name="1.1 Implement Multi-Factor Authentication (Enhance Authentication Mechanism)",
+    leaf=True
+)
+
+encryption_audit_resolution = AchieveGoal(
+    name="1.2 Data Encryption at Rest and In Transit (AES-256)",
     leaf=True
 )
 
@@ -249,6 +254,11 @@ mfa_resolution = AchieveGoal(
 resolution_enhance_unauth_link = ResolutionLink(
     goal=mfa_resolution,
     obstacle=unauthorized_access_to_user_data  
+)
+
+resolution_data_encryption_unauth_link = ResolutionLink(
+    goal=encryption_audit_resolution,
+    obstacle=unauthorized_access_to_user_data
 )
 
 # resolution_mfa = ResolutionLink(goal=mfa_resolution, obstacle=unauthorized_access_obstacle)
@@ -280,7 +290,7 @@ resolution_enhance_unauth_link = ResolutionLink(
 #     annotation="Tactic: Milestone-Driven Pattern"
 # )
 
-output = generate_graph(goals=[user_satisfaction, platform_security, system_reliability], links=[platform_unauthorized_ob_link,resolution_enhance_unauth_link])
+output = generate_graph(goals=[user_satisfaction, platform_security, system_reliability], links=[platform_unauthorized_ob_link,resolution_enhance_unauth_link, resolution_data_encryption_unauth_link])
 
 print(output)
 
