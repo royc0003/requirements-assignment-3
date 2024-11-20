@@ -170,7 +170,7 @@ unauthorized_access_to_user_data = Obstacle(
 
 # Impediment towards Maintain [System Reliability]
 server_crashes_under_high_traffic = Obstacle(
-    name="Server crashes under high traffic"
+    name="Server crashes under high traffic",
 )
 
 # Impediment towards Achieve [Content Moderation]
@@ -180,10 +180,12 @@ incomplete_automated_content_filterin = Obstacle(
 
 # Obstacle 2 Sub-Obstacles
 insufficient_capacity = Obstacle(
-    name="Insufficient server capacity to handle peak traffic"
+    name="Sub-obstacle 2.1: Insufficient server capacity to handle peak traffic",
+    annotation="Table Ref 3.1.1"
 )
 inefficient_load_balancing = Obstacle(
-    name="Inefficient load balancing during high traffic"
+    name="Sub-obstacle 2.2: Inefficient load balancing during high traffic",
+    annotation="Table Ref 3.1.2"
 )
 server_crashes_and_refinement = Refinement(
     complete=False,  # AND-refinement
@@ -207,9 +209,9 @@ load_balancing_resolution_link = ResolutionLink(goal=load_balancing_goal, obstac
 
 # Integrating Obstacles and Refinements into Goal Model
 server_crashes_obstacle = Obstacle(
-    name="Server crashes under high traffic",
+    name="Obstacle 2: Server crashes under high traffic",
     refinements=[server_crashes_and_refinement],
-    annotation="Obstruction Link to Goal: Maintain[System Reliability]"
+    annotation="Table Ref: 3.1 | Obstruction Link to Goal: Maintain[System Reliability]"
 )
 
 
