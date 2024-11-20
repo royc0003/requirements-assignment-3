@@ -277,10 +277,12 @@ incomplete_automated_filtering_obstacle = Obstacle(
 # Resolutions for Obstacle 3 Sub-Obstacles
 ai_filtering_goal = AchieveGoal(
     name="Leverage AI for Context-Aware Moderation",
+    annotation="Resolution/Counter-Measure",
     leaf=True
 )
 hybrid_moderation_goal = AchieveGoal(
     name="Implement Hybrid Moderation System",
+    annotation="Resolution/Counter-Measure",
     leaf=True
 )
 
