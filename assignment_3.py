@@ -161,7 +161,126 @@ platform_security = AchieveGoal(name="Platform Security",
 system_reliability = MaintainGoal(name="System Reliability",
                                   refinements=[Refinement(complete=False, children=[platform_performance, avoid_downtime])])
 
-output = generate_graph(goals=[user_satisfaction, platform_security, system_reliability])
+# Define obstacle
+
+#  Impediment towards Achieve [Platform Security]
+unauthorized_access_to_user_data = Obstacle(
+    name="Unauthorized access to user data"
+)
+
+# Impediment towards Maintain [System Reliability]
+server_crashes_under_high_traffic = Obstacle(
+    name="Server crashes under high traffic"
+)
+
+# Impediment towards Achieve [Content Moderation]
+incomplete_automated_content_filterin = Obstacle(
+    name="Incomplete automated content filtering"
+)
+
+# Obstruct Links
+platform_unauthorized_ob_link = ObstructionLink(
+    goal=platform_security,
+    obstacle=unauthorized_access_to_user_data
+)
+
+# Define Obstacles for Unauthorized Access to User Data
+# Define Obstacles
+# unauthorized_access_obstacle = Obstacle(
+#     name="Unauthorized Access to User Data",
+#     annotation="Threat to user data security."
+# )
+# no_encryption_audit_obstacle = Obstacle(
+#     name="No Encryption Audits",
+#     annotation="Data may not comply with encryption best practices."
+# )
+# server_crash_obstacle = Obstacle(
+#     name="Server Crashes Under High Traffic",
+#     annotation="System unable to handle traffic spikes."
+# )
+# incomplete_filtering_obstacle = Obstacle(
+#     name="Incomplete Automated Filtering",
+#     annotation="Automated filtering lacks contextual understanding."
+# )
+
+# # Define Resolutions
+# mfa_resolution = AchieveGoal(
+#     name="Implement Multi-Factor Authentication",
+#     performs=[PerformanceLink(agent=authentication_agent, operation=auth_action)],
+#     leaf=True
+# )
+# encryption_audit_resolution = AchieveGoal(
+#     name="Perform Regular Encryption Audits",
+#     performs=[PerformanceLink(agent=encryption_agent, operation=encryption_action)],
+#     leaf=True
+# )
+# auto_scaling_resolution = AchieveGoal(
+#     name="Implement Auto-Scaling Infrastructure",
+#     performs=[PerformanceLink(agent=infrastructure_agent, operation=load_balance_action)],
+#     leaf=True
+# )
+# load_testing_resolution = AchieveGoal(
+#     name="Conduct Regular Load Testing",
+#     performs=[PerformanceLink(agent=performance_agent, operation=performance_action)],
+#     leaf=True
+# )
+# ai_filtering_resolution = AchieveGoal(
+#     name="Leverage AI for Context-Aware Moderation",
+#     performs=[PerformanceLink(agent=filtering_agent, operation=filtering_action)],
+#     leaf=True
+# )
+# hybrid_moderation_resolution = AchieveGoal(
+#     name="Implement Hybrid Moderation System",
+#     performs=[
+#         PerformanceLink(agent=manual_review_agent, operation=manual_review_action),
+#         PerformanceLink(agent=filtering_agent, operation=filtering_action)
+#     ],
+#     leaf=True
+# )
+
+mfa_resolution = AchieveGoal(
+    name="Implement Multi-Factor Authentication (Enhance Authentication Mechanism)",
+    leaf=True
+)
+
+# Define Obstruction Links
+
+# Define Resolution Link
+resolution_enhance_unauth_link = ResolutionLink(
+    goal=mfa_resolution,
+    obstacle=unauthorized_access_to_user_data  
+)
+
+# resolution_mfa = ResolutionLink(goal=mfa_resolution, obstacle=unauthorized_access_obstacle)
+# resolution_encryption_audit = ResolutionLink(goal=encryption_audit_resolution, obstacle=no_encryption_audit_obstacle)
+# resolution_auto_scaling = ResolutionLink(goal=auto_scaling_resolution, obstacle=server_crash_obstacle)
+# resolution_load_testing = ResolutionLink(goal=load_testing_resolution, obstacle=server_crash_obstacle)
+# resolution_ai_filtering = ResolutionLink(goal=ai_filtering_resolution, obstacle=incomplete_filtering_obstacle)
+# resolution_hybrid_moderation = ResolutionLink(goal=hybrid_moderation_resolution, obstacle=incomplete_filtering_obstacle)
+
+# # Integrate Obstacles into the Goal Model using Refinements
+# auth_integrity = MaintainGoal(
+#     name="User Authentication Integrity",
+#     refinements=[Refinement(complete=False, children=[unauthorized_access_obstacle])],
+#     annotation="Tactic: Guard Introduction Pattern"
+# )
+# data_privacy = AchieveGoal(
+#     name="Data Privacy Compliance",
+#     refinements=[Refinement(complete=False, children=[no_encryption_audit_obstacle])],
+#     annotation="Tactic: Security Compliance"
+# )
+# platform_performance = MaintainGoal(
+#     name="Consistent Platform Performance",
+#     refinements=[Refinement(complete=False, children=[server_crash_obstacle])],
+#     annotation="Tactic: System Performance Optimization"
+# )
+# content_moderation = AchieveGoal(
+#     name="Content Moderation",
+#     refinements=[Refinement(complete=False, children=[incomplete_filtering_obstacle])],
+#     annotation="Tactic: Milestone-Driven Pattern"
+# )
+
+output = generate_graph(goals=[user_satisfaction, platform_security, system_reliability], links=[platform_unauthorized_ob_link,resolution_enhance_unauth_link])
 
 print(output)
 
