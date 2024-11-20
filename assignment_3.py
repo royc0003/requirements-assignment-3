@@ -178,11 +178,51 @@ incomplete_automated_content_filterin = Obstacle(
     name="Incomplete automated content filtering"
 )
 
+# Obstacle 2 Sub-Obstacles
+insufficient_capacity = Obstacle(
+    name="Insufficient server capacity to handle peak traffic"
+)
+inefficient_load_balancing = Obstacle(
+    name="Inefficient load balancing during high traffic"
+)
+server_crashes_and_refinement = Refinement(
+    complete=True,  # AND-refinement
+    children=[insufficient_capacity, inefficient_load_balancing]
+)
+
+
+# Resolutions for Obstacle 2 Sub-Obstacles
+auto_scaling_goal = AchieveGoal(
+    name="Implement Auto-Scaling Infrastructure",
+    leaf=True
+)
+load_balancing_goal = AchieveGoal(
+    name="Optimize Load Balancing Mechanisms",
+    leaf=True
+)
+
+# Resolution Links for Obstacle 2
+auto_scaling_resolution_link = ResolutionLink(goal=auto_scaling_goal, obstacle=insufficient_capacity)
+load_balancing_resolution_link = ResolutionLink(goal=load_balancing_goal, obstacle=inefficient_load_balancing)
+
+# Integrating Obstacles and Refinements into Goal Model
+server_crashes_obstacle = Obstacle(
+    name="Server crashes under high traffic",
+    refinements=[server_crashes_and_refinement]
+)
+
+
 # Obstruct Links
 platform_unauthorized_ob_link = ObstructionLink(
     goal=platform_security,
     obstacle=unauthorized_access_to_user_data
 )
+
+server_crash_ob_link = ObstructionLink(
+    goal=system_reliability,
+    obstacle=server_crashes_obstacle
+)
+
 
 # Define Obstacles for Unauthorized Access to User Data
 # Define Obstacles
@@ -290,7 +330,7 @@ resolution_data_encryption_unauth_link = ResolutionLink(
 #     annotation="Tactic: Milestone-Driven Pattern"
 # )
 
-output = generate_graph(goals=[user_satisfaction, platform_security, system_reliability], links=[platform_unauthorized_ob_link,resolution_enhance_unauth_link, resolution_data_encryption_unauth_link])
+output = generate_graph(goals=[user_satisfaction, platform_security, system_reliability], links=[platform_unauthorized_ob_link,resolution_enhance_unauth_link, resolution_data_encryption_unauth_link, auto_scaling_resolution_link, load_balancing_resolution_link, server_crash_ob_link])
 
 print(output)
 
