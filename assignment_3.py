@@ -186,7 +186,7 @@ inefficient_load_balancing = Obstacle(
     name="Inefficient load balancing during high traffic"
 )
 server_crashes_and_refinement = Refinement(
-    complete=True,  # AND-refinement
+    complete=False,  # AND-refinement
     children=[insufficient_capacity, inefficient_load_balancing]
 )
 
@@ -208,7 +208,8 @@ load_balancing_resolution_link = ResolutionLink(goal=load_balancing_goal, obstac
 # Integrating Obstacles and Refinements into Goal Model
 server_crashes_obstacle = Obstacle(
     name="Server crashes under high traffic",
-    refinements=[server_crashes_and_refinement]
+    refinements=[server_crashes_and_refinement],
+    annotation="Obstruction Link to Goal: Maintain[System Reliability]"
 )
 
 
@@ -224,59 +225,7 @@ server_crash_ob_link = ObstructionLink(
 )
 
 
-# Define Obstacles for Unauthorized Access to User Data
-# Define Obstacles
-# unauthorized_access_obstacle = Obstacle(
-#     name="Unauthorized Access to User Data",
-#     annotation="Threat to user data security."
-# )
-# no_encryption_audit_obstacle = Obstacle(
-#     name="No Encryption Audits",
-#     annotation="Data may not comply with encryption best practices."
-# )
-# server_crash_obstacle = Obstacle(
-#     name="Server Crashes Under High Traffic",
-#     annotation="System unable to handle traffic spikes."
-# )
-# incomplete_filtering_obstacle = Obstacle(
-#     name="Incomplete Automated Filtering",
-#     annotation="Automated filtering lacks contextual understanding."
-# )
 
-# # Define Resolutions
-# mfa_resolution = AchieveGoal(
-#     name="Implement Multi-Factor Authentication",
-#     performs=[PerformanceLink(agent=authentication_agent, operation=auth_action)],
-#     leaf=True
-# )
-# encryption_audit_resolution = AchieveGoal(
-#     name="Perform Regular Encryption Audits",
-#     performs=[PerformanceLink(agent=encryption_agent, operation=encryption_action)],
-#     leaf=True
-# )
-# auto_scaling_resolution = AchieveGoal(
-#     name="Implement Auto-Scaling Infrastructure",
-#     performs=[PerformanceLink(agent=infrastructure_agent, operation=load_balance_action)],
-#     leaf=True
-# )
-# load_testing_resolution = AchieveGoal(
-#     name="Conduct Regular Load Testing",
-#     performs=[PerformanceLink(agent=performance_agent, operation=performance_action)],
-#     leaf=True
-# )
-# ai_filtering_resolution = AchieveGoal(
-#     name="Leverage AI for Context-Aware Moderation",
-#     performs=[PerformanceLink(agent=filtering_agent, operation=filtering_action)],
-#     leaf=True
-# )
-# hybrid_moderation_resolution = AchieveGoal(
-#     name="Implement Hybrid Moderation System",
-#     performs=[
-#         PerformanceLink(agent=manual_review_agent, operation=manual_review_action),
-#         PerformanceLink(agent=filtering_agent, operation=filtering_action)
-#     ],
-#     leaf=True
-# )
 
 mfa_resolution = AchieveGoal(
     name="1.1 Implement Multi-Factor Authentication (Enhance Authentication Mechanism)",
@@ -330,7 +279,45 @@ resolution_data_encryption_unauth_link = ResolutionLink(
 #     annotation="Tactic: Milestone-Driven Pattern"
 # )
 
-output = generate_graph(goals=[user_satisfaction, platform_security, system_reliability], links=[platform_unauthorized_ob_link,resolution_enhance_unauth_link, resolution_data_encryption_unauth_link, auto_scaling_resolution_link, load_balancing_resolution_link, server_crash_ob_link])
+# Obstacle 3 Sub-Obstacles
+inaccurate_detection = Obstacle(
+    name="Inaccurate detection of inappropriate content"
+)
+limited_handling_edge_cases = Obstacle(
+    name="Limited handling of edge cases in automated filtering"
+)
+content_filtering_or_refinement = Refinement(
+    complete=False,  # OR-refinement
+    children=[inaccurate_detection, limited_handling_edge_cases]
+)
+
+incomplete_automated_filtering_obstacle = Obstacle(
+    name="Incomplete automated content filtering ",
+    refinements=[content_filtering_or_refinement],
+    annotation="Obstruction Link to Goal: Content Moderation"
+)
+
+# Resolutions for Obstacle 3 Sub-Obstacles
+ai_filtering_goal = AchieveGoal(
+    name="Leverage AI for Context-Aware Moderation",
+    leaf=True
+)
+hybrid_moderation_goal = AchieveGoal(
+    name="Implement Hybrid Moderation System",
+    leaf=True
+)
+
+# Resolution Links for Obstacle 3
+ai_filtering_resolution_link = ResolutionLink(goal=ai_filtering_goal, obstacle=inaccurate_detection)
+hybrid_moderation_resolution_link = ResolutionLink(goal=hybrid_moderation_goal, obstacle=limited_handling_edge_cases)
+
+incomplete_automated_content_filterin_link = ObstructionLink(
+    goal=content_moderation,
+    obstacle=incomplete_automated_filtering_obstacle
+)
+
+
+output = generate_graph(goals=[user_satisfaction, platform_security, system_reliability], links=[platform_unauthorized_ob_link,resolution_enhance_unauth_link, resolution_data_encryption_unauth_link, auto_scaling_resolution_link, load_balancing_resolution_link, server_crash_ob_link, ai_filtering_resolution_link, hybrid_moderation_resolution_link, incomplete_automated_content_filterin_link])
 
 print(output)
 
