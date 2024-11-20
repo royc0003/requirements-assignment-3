@@ -250,51 +250,28 @@ resolution_data_encryption_unauth_link = ResolutionLink(
     obstacle=unauthorized_access_to_user_data
 )
 
-# resolution_mfa = ResolutionLink(goal=mfa_resolution, obstacle=unauthorized_access_obstacle)
-# resolution_encryption_audit = ResolutionLink(goal=encryption_audit_resolution, obstacle=no_encryption_audit_obstacle)
-# resolution_auto_scaling = ResolutionLink(goal=auto_scaling_resolution, obstacle=server_crash_obstacle)
-# resolution_load_testing = ResolutionLink(goal=load_testing_resolution, obstacle=server_crash_obstacle)
-# resolution_ai_filtering = ResolutionLink(goal=ai_filtering_resolution, obstacle=incomplete_filtering_obstacle)
-# resolution_hybrid_moderation = ResolutionLink(goal=hybrid_moderation_resolution, obstacle=incomplete_filtering_obstacle)
-
-# # Integrate Obstacles into the Goal Model using Refinements
-# auth_integrity = MaintainGoal(
-#     name="User Authentication Integrity",
-#     refinements=[Refinement(complete=False, children=[unauthorized_access_obstacle])],
-#     annotation="Tactic: Guard Introduction Pattern"
-# )
-# data_privacy = AchieveGoal(
-#     name="Data Privacy Compliance",
-#     refinements=[Refinement(complete=False, children=[no_encryption_audit_obstacle])],
-#     annotation="Tactic: Security Compliance"
-# )
-# platform_performance = MaintainGoal(
-#     name="Consistent Platform Performance",
-#     refinements=[Refinement(complete=False, children=[server_crash_obstacle])],
-#     annotation="Tactic: System Performance Optimization"
-# )
-# content_moderation = AchieveGoal(
-#     name="Content Moderation",
-#     refinements=[Refinement(complete=False, children=[incomplete_filtering_obstacle])],
-#     annotation="Tactic: Milestone-Driven Pattern"
-# )
 
 # Obstacle 3 Sub-Obstacles
 inaccurate_detection = Obstacle(
-    name="Inaccurate detection of inappropriate content"
+    name="Sub-obstacle 3.1: Inaccurate detection of inappropriate content"
 )
 limited_handling_edge_cases = Obstacle(
-    name="Limited handling of edge cases in automated filtering"
+    name="Sub-obstacle 3.2: Limited handling of edge cases in automated filtering"
 )
 content_filtering_or_refinement = Refinement(
     complete=False,  # OR-refinement
-    children=[inaccurate_detection, limited_handling_edge_cases]
+    children=[inaccurate_detection]
+)
+
+content_filtering_or_refinement_2 = Refinement(
+    complete=False,  # OR-refinement
+    children=[limited_handling_edge_cases]
 )
 
 incomplete_automated_filtering_obstacle = Obstacle(
-    name="Incomplete automated content filtering ",
-    refinements=[content_filtering_or_refinement],
-    annotation="Obstruction Link to Goal: Content Moderation"
+    name="Obstacle 3: Incomplete automated content filtering",
+    refinements=[content_filtering_or_refinement, content_filtering_or_refinement_2],
+    annotation="Obstruction Link to Goal: Content Moderation (Obstacle Or-Refinement)"
 )
 
 # Resolutions for Obstacle 3 Sub-Obstacles
