@@ -197,10 +197,12 @@ server_crashes_and_refinement = Refinement(
 # Resolutions for Obstacle 2 Sub-Obstacles
 auto_scaling_goal = AchieveGoal(
     name="Implement Auto-Scaling Infrastructure",
+    annotation="Resoltuion / Counter Measure",
     leaf=True
 )
 load_balancing_goal = AchieveGoal(
     name="Optimize Load Balancing Mechanisms",
+    annotation="Resoltuion / Counter Measure",
     leaf=True
 )
 
