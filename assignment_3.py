@@ -161,13 +161,10 @@ platform_security = AchieveGoal(name="Platform Security",
 system_reliability = MaintainGoal(name="System Reliability",
                                   refinements=[Refinement(complete=False, children=[platform_performance, avoid_downtime])])
 
-# Generate the goal model graph
 output = generate_graph(goals=[user_satisfaction, platform_security, system_reliability])
 
-# Display Mermaid output for verification
 print(output)
 
-# Generate the Mermaid link for visualization
 config = {"theme": "default", "themeVariables": {"fontFamily": "Helvetica"}}
 link = generate_pako_link(output, "edit", config=config)
 print("Mermaid Link:", link)
