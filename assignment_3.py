@@ -161,7 +161,151 @@ platform_security = AchieveGoal(name="Platform Security",
 system_reliability = MaintainGoal(name="System Reliability",
                                   refinements=[Refinement(complete=False, children=[platform_performance, avoid_downtime])])
 
-output = generate_graph(goals=[user_satisfaction, platform_security, system_reliability])
+# Define obstacle
+
+#  Impediment towards Achieve [Platform Security]
+unauthorized_access_to_user_data = Obstacle(
+    name="Obstacle 1: Unauthorized access to user data",
+    annotation="Obstruction to Achieve[Platform Security]"
+)
+
+# Impediment towards Maintain [System Reliability]
+server_crashes_under_high_traffic = Obstacle(
+    name="Server crashes under high traffic",
+)
+
+# Impediment towards Achieve [Content Moderation]
+incomplete_automated_content_filterin = Obstacle(
+    name="Incomplete automated content filtering"
+)
+
+# Obstacle 2 Sub-Obstacles
+insufficient_capacity = Obstacle(
+    name="Sub-obstacle 2.1: Insufficient server capacity to handle peak traffic",
+    annotation="Table Ref 3.1.1"
+)
+inefficient_load_balancing = Obstacle(
+    name="Sub-obstacle 2.2: Inefficient load balancing during high traffic",
+    annotation="Table Ref 3.1.2"
+)
+server_crashes_and_refinement = Refinement(
+    complete=False,  # AND-refinement
+    children=[insufficient_capacity, inefficient_load_balancing]
+)
+
+
+# Resolutions for Obstacle 2 Sub-Obstacles
+auto_scaling_goal = AchieveGoal(
+    name="Implement Auto-Scaling Infrastructure",
+    annotation="Resoltuion / Counter Measure",
+    leaf=True
+)
+load_balancing_goal = AchieveGoal(
+    name="Optimize Load Balancing Mechanisms",
+    annotation="Resoltuion / Counter Measure",
+    leaf=True
+)
+
+# Resolution Links for Obstacle 2
+auto_scaling_resolution_link = ResolutionLink(goal=auto_scaling_goal, obstacle=insufficient_capacity)
+load_balancing_resolution_link = ResolutionLink(goal=load_balancing_goal, obstacle=inefficient_load_balancing)
+
+# Integrating Obstacles and Refinements into Goal Model
+server_crashes_obstacle = Obstacle(
+    name="Obstacle 2: Server crashes under high traffic",
+    refinements=[server_crashes_and_refinement],
+    annotation="Table Ref: 3.1 | Obstruction Link to Goal: Maintain[System Reliability]"
+)
+
+
+# Obstruct Links
+platform_unauthorized_ob_link = ObstructionLink(
+    goal=platform_security,
+    obstacle=unauthorized_access_to_user_data
+)
+
+server_crash_ob_link = ObstructionLink(
+    goal=system_reliability,
+    obstacle=server_crashes_obstacle
+)
+
+
+
+
+mfa_resolution = AchieveGoal(
+    name="1.1 Implement Multi-Factor Authentication (Enhance Authentication Mechanism)",
+    annotation="Resolution / Counter-measure",
+    leaf=True
+)
+
+encryption_audit_resolution = AchieveGoal(
+    name="1.2 Data Encryption at Rest and In Transit (AES-256)",
+    annotation="Resolution / Counter-measure",
+    leaf=True
+)
+
+# Define Obstruction Links
+
+# Define Resolution Link
+resolution_enhance_unauth_link = ResolutionLink(
+    goal=mfa_resolution,
+    obstacle=unauthorized_access_to_user_data  
+)
+
+resolution_data_encryption_unauth_link = ResolutionLink(
+    goal=encryption_audit_resolution,
+    obstacle=unauthorized_access_to_user_data
+)
+
+
+# Obstacle 3 Sub-Obstacles
+inaccurate_detection = Obstacle(
+    name="Sub-obstacle 3.1: Inaccurate detection of inappropriate content",
+    annotation="Table Ref 5.1.1"
+)
+limited_handling_edge_cases = Obstacle(
+    name="Sub-obstacle 3.2: Limited handling of edge cases in automated filtering",
+    annotation="Table Ref 5.1.2"
+)
+content_filtering_or_refinement = Refinement(
+    complete=False,  # OR-refinement
+    children=[inaccurate_detection]
+)
+
+content_filtering_or_refinement_2 = Refinement(
+    complete=False,  # OR-refinement
+    children=[limited_handling_edge_cases]
+)
+
+incomplete_automated_filtering_obstacle = Obstacle(
+    name="Obstacle 3.1: Incomplete automated content filtering",
+    refinements=[content_filtering_or_refinement, content_filtering_or_refinement_2],
+    annotation="Table Ref 5.1 | Obstruction Link to Goal: Content Moderation (Obstacle Or-Refinement)"
+)
+
+# Resolutions for Obstacle 3 Sub-Obstacles
+ai_filtering_goal = AchieveGoal(
+    name="Leverage AI for Context-Aware Moderation",
+    annotation="Resolution/Counter-Measure",
+    leaf=True
+)
+hybrid_moderation_goal = AchieveGoal(
+    name="Implement Hybrid Moderation System",
+    annotation="Resolution/Counter-Measure",
+    leaf=True
+)
+
+# Resolution Links for Obstacle 3
+ai_filtering_resolution_link = ResolutionLink(goal=ai_filtering_goal, obstacle=inaccurate_detection)
+hybrid_moderation_resolution_link = ResolutionLink(goal=hybrid_moderation_goal, obstacle=limited_handling_edge_cases)
+
+incomplete_automated_content_filterin_link = ObstructionLink(
+    goal=content_moderation,
+    obstacle=incomplete_automated_filtering_obstacle
+)
+
+
+output = generate_graph(goals=[user_satisfaction, platform_security, system_reliability], links=[platform_unauthorized_ob_link,resolution_enhance_unauth_link, resolution_data_encryption_unauth_link, auto_scaling_resolution_link, load_balancing_resolution_link, server_crash_ob_link, ai_filtering_resolution_link, hybrid_moderation_resolution_link, incomplete_automated_content_filterin_link])
 
 print(output)
 
