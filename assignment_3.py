@@ -253,10 +253,12 @@ resolution_data_encryption_unauth_link = ResolutionLink(
 
 # Obstacle 3 Sub-Obstacles
 inaccurate_detection = Obstacle(
-    name="Sub-obstacle 3.1.1: Inaccurate detection of inappropriate content"
+    name="Sub-obstacle 3.1: Inaccurate detection of inappropriate content",
+    annotation="Table Ref 5.1.1"
 )
 limited_handling_edge_cases = Obstacle(
-    name="Sub-obstacle 3.1.2: Limited handling of edge cases in automated filtering"
+    name="Sub-obstacle 3.2: Limited handling of edge cases in automated filtering",
+    annotation="Table Ref 5.1.2"
 )
 content_filtering_or_refinement = Refinement(
     complete=False,  # OR-refinement
@@ -271,7 +273,7 @@ content_filtering_or_refinement_2 = Refinement(
 incomplete_automated_filtering_obstacle = Obstacle(
     name="Obstacle 3.1: Incomplete automated content filtering",
     refinements=[content_filtering_or_refinement, content_filtering_or_refinement_2],
-    annotation="Obstruction Link to Goal: Content Moderation (Obstacle Or-Refinement)"
+    annotation="Table Ref 5.1 | Obstruction Link to Goal: Content Moderation (Obstacle Or-Refinement)"
 )
 
 # Resolutions for Obstacle 3 Sub-Obstacles
