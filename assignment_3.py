@@ -165,7 +165,7 @@ system_reliability = MaintainGoal(name="System Reliability",
 
 #  Impediment towards Achieve [Platform Security]
 unauthorized_access_to_user_data = Obstacle(
-    name="Unauthorized access to user data"
+    name="Obstacle 1: Unauthorized access to user data"
 )
 
 # Impediment towards Maintain [System Reliability]
@@ -231,11 +231,13 @@ server_crash_ob_link = ObstructionLink(
 
 mfa_resolution = AchieveGoal(
     name="1.1 Implement Multi-Factor Authentication (Enhance Authentication Mechanism)",
+    annotation="Resolution / Counter-measure",
     leaf=True
 )
 
 encryption_audit_resolution = AchieveGoal(
     name="1.2 Data Encryption at Rest and In Transit (AES-256)",
+    annotation="Resolution / Counter-measure",
     leaf=True
 )
 
